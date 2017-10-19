@@ -1,6 +1,6 @@
 class Coffee
   def brew
-    raise 'must implement brew() method in subclass'
+    raise NotImplementedError
   end
 end
 

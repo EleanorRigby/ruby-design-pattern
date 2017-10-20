@@ -1,4 +1,5 @@
 class CPU
+  # ...
 end
 
 class Motherboard

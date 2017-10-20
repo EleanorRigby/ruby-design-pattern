@@ -1,0 +1,2 @@
+Auth container is not healthy
+Worker node failed, restarting

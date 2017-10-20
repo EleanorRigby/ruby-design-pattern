@@ -35,11 +35,11 @@ class Circle < Shape
 end
 
 class AbstractFactory
-  def get_color
+  def get_shape
     raise NotImplementedError
   end
 
-  def get_shape
+  def get_color
     raise NotImplementedError
   end
 end
@@ -64,9 +64,19 @@ class RedCircleFactory < AbstractFactory
   end
 end
 
+class RedRectangleFactory < AbstractFactory
+  def get_shape
+    Rectangle.new
+  end
+
+  def get_color
+    Red.new
+  end
+end
+
 class ColoredShapeFactory
   def get_factory(type)
-    if %w(BlueRectangle RedCircle).include? type
+    if %w(BlueRectangle RedCircle RedRectangle).include? type
       self.class.const_get("#{type}Factory").new
     end
   end
@@ -75,11 +85,14 @@ end
 if __FILE__ == $0
   colored_shape_factory = ColoredShapeFactory.new
 
-  blue_rectangle_factory = colored_shape_factory.get_factory('BlueRectangle')
-  blue_rectangle_factory.get_shape.draw
-  blue_rectangle_factory.get_color.fill
+  factories = [
+    colored_shape_factory.get_factory('BlueRectangle'),
+    colored_shape_factory.get_factory('RedCircle'),
+    colored_shape_factory.get_factory('RedRectangle'),
+  ]
 
-  red_circle_factory = colored_shape_factory.get_factory('RedCircle')
-  red_circle_factory.get_shape.draw
-  red_circle_factory.get_color.fill
+  factories.each do |factory|
+    factory.get_shape.draw
+    factory.get_color.fill
+  end
 end
